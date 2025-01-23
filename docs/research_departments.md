@@ -49,7 +49,55 @@ The University of Bologna is actively engaged in research and innovation initiat
 
 ---
 
+## **Researcher Roles and Projects at the University of Bologna**
+
+A .csv file is provided to visualize the Sankey Diagram showing the network strcuture.
+The CSV structure is as follows:
+
+| **Name** | **Academic Position** | **Department** | **Network Node Width** | **Research Interests** | **Project** |
+
+### Key
+
+- **Network Node Width**: Represents the significance of the researcher in the network visualization. A higher number indicates a more central position in the network.
+- **European Project**: Indicates involvement in EU-funded research initiatives.
+
+---
+
+## **Academic Positions at the University of Bologna**
+
+The following are the key academic roles that contribute to research and teaching at the University of Bologna. These positions reflect the Italian academic system and its commitment to supporting researchers at all stages of their careers.
+
+### 1. **Full Professor (Professore Ordinario)**
+   - The highest academic rank.
+   - Requires extensive research contributions and teaching experience.
+   - Typically involved in university administration and leadership.
+
+### 2. **Associate Professor (Professore Associato)**
+   - A mid-level position for those with substantial academic achievements.
+   - Has the right to apply for full professorship.
+
+### 3. **Confirmed Researcher (Ricercatore Confermato)**
+   - A tenured research position or assistant professor role.
+   - Focuses on both research and teaching within a department.
+
+### 4. **Research Fellow (Assegnista di Ricerca)**
+   - A fixed-term researcher role for those holding a Ph.D.
+   - Typically focused on conducting specific research projects.
+
+### 5. **Temporary Researcher (Ricercatore a Tempo Determinato)**
+   - **Type A** and **Type B** positions were phased out with recent reforms.
+   - **Ricercatore a Tempo Determinato** roles now focus on tenure-track or contract-based research.
+
+### 6. **Contract Professor (Professore a Contratto)**
+   - Professors hired for specific courses or lectures on a temporary basis.
+   - Often less involved in long-term academic research projects.
+
+### 7. **Ph.D. Student (Dottorando di Ricerca)**
+   - Individuals enrolled in a doctoral program.
+   - Focuses on research and academic development under supervision.
+
+---
+
 ## **Conclusion**
 
 Through its extensive research activities, the University of Bologna demonstrates a commitment to advancing knowledge, fostering innovation, and addressing societal challenges. Its focus on competitive research and interdisciplinary collaboration ensures that it remains at the forefront of academic and scientific progress, both nationally and internationally.
-

@@ -96,6 +96,8 @@ The following are the key academic roles that contribute to research and teachin
    - Individuals enrolled in a doctoral program.
    - Focuses on research and academic development under supervision.
 
+### 8. **Didactic tutor**
+
 ### * **Delegate**
    - Part of the Delegates in the university
 

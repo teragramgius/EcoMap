@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # Define the CSV data with grades
-data = """Name,Grade,Departments,Network Node Width,Interests,European Project
+data = """Name,Grade,Departments,Network Node Width,Interests, Project
 Elena Catelli,Full Professor,DIMEVET,4,"Respiratory viral diseases, Immunology",Project A
 Giulia Mescolini,Adjunct Professor,DIMEVET,2,"Virus bioinformatics, Molecular diagnostics",
 Caterina Lupini,Associate Professor,DIMEVET,3,"Data science for medical solutions, Recombinant vaccines",Project B
@@ -97,8 +97,8 @@ for department in unique_departments:
     colors.append("#FFD700")  # Yellow for departments
     idx += 1
 
-# Add nodes for European projects
-unique_projects = df['European Project'].dropna().unique()
+# Add nodes for Projects
+unique_projects = df['Project'].dropna().unique()
 for project in unique_projects:
     node_map[project] = idx
     labels.append(project)
@@ -109,7 +109,7 @@ for project in unique_projects:
 for _, row in df.iterrows():
     person = row['Name']
     department = row['Departments']
-    project = row['European Project']
+    project = row['Project']
     grade = row['Grade']
     grade_weight = grade_weights.get(grade, 1)  # Default to 1 if grade not found
     

@@ -60,8 +60,8 @@ interest_categories = {
     "Muscle weakness in ageing": "Ageing",
     "Age-related muscle changes": "Ageing",
     "Stem cell protection": "Other - Stem Cell Research",
-    "Domestic-wild bird interface and avian influenza": "Other - Veterinary Science",
-    "Inflammation mediators in poultry infections": "Other - Veterinary Science",
+     "Domestic-wild bird interface and avian influenza": "Other - Veterinary Science",
+    "Inflammation mediators in poultry infections": "Other - Veterinary Science"
 }
 
 # Assign categories to interests

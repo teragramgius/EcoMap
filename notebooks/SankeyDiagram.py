@@ -3,14 +3,17 @@ import plotly.graph_objects as go
 
 # Define the CSV data with grades
 data = """Name,Grade,Departments,Network Node Width,Interests, Project
-Elena Catelli,Full Professor,DIMEVET,4,"Respiratory viral diseases, Immunology",Project A
-Giulia Mescolini,Adjunct Professor,DIMEVET,2,"Virus bioinformatics, Molecular diagnostics",
-Caterina Lupini,Associate Professor,DIMEVET,3,"Data science for medical solutions, Recombinant vaccines",Project B
-Zelan Li,Junior Researcher,Chemistry Department,1,"Heritage Science, Data Processing",Project C
-Valentina Orioli,Associate Professor,Architecture Department,3,"Urban regeneration, Public space",
+Elena Catelli,Full Professor,DIMEVET,4,"Respiratory viral diseases, Immunology, Domestic-wild bird interface and avian influenza, Inflammation mediators in poultry infections""
+Giulia Mescolini,Adjunct Professor,DIMEVET,2,"Virus bioinformatics, Molecular diagnostics, Virus bioinformatics, Molecular diagnostics",
+Caterina Lupini,Associate Professor,DIMEVET,3,"Data science for medical solutions, Recombinant vaccines, Avian vaccines, Immunosuppressive diseases of birds, Respiratory diseases of birds, Viral neoplastic diseases of birds, Recombinant vaccines, Molecular epidemiology"
+Zelan Li,Junior Researcher,Chemistry Department,1,"Heritage Science, Data Processing, Heritage Science, Imaging Iperspettrale, Chemiometria, Spettroscopia""
+Valentina Orioli,Associate Professor,Architecture Department,3,"Urban regeneration, Public space, Municipal urban planning, Local government, Detailed plan, Metropolitan city, Tourism, Colonies, Social housing, Urban regeneration, Public space, Urban project, Mobility, Urban agriculture",
 Marco Puleri,Associate Professor,SPS,3,"Ukraine War",
-Annalisa Astolfi,Senior Researcher,DIMEC,2,"Leukemia, Gene",Project A
+Annalisa Astolfi,Senior Researcher,DIMEC,2,"Leukemia, Gene",
 Gastone Castellani,Full Professor,DIMEC,4,"AI for medical solutions",
+Altea Panebianco, Academic Tutor, Architecture Department, 8, "Academic and urban policies, Territorial ecosystem and knowledge framework for vast area planning",
+Martina Massari, Temporary Researcher, Architecture Department, 5, "Enabling city"
+}
 """
 
 # Load the data into a pandas DataFrame
@@ -64,6 +67,10 @@ interest_categories = {
     "Inflammation mediators in poultry infections": "Other - Veterinary Science",
     "Virus bioinformatics, Molecular diagnostics":  "Other - Veterinary Science",
     "Avian pathology, Immunosuppressive viral diseases, Molecular biology": "Other - Veterinary Science",
+    "MSC differentiation and atherosclerotic disease progression": "Other - Medical Research",
+    "Academic and urban policies": "Other - Urban Policies",
+    "Territorial ecosystem and knowledge framework for vast area planning": "Other - Urban Planning"
+
 }
 
 # Assign categories to interests

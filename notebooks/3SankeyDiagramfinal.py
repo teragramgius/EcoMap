@@ -1,126 +1,119 @@
 import pandas as pd
 import plotly.graph_objects as go
 
-############################################
-# 1) Sample CSV Data
-############################################
-csv_data = """Name,Departments,Interests,European Project
-Alice,DIMEVET,"Urban policies, Digital twins",
-Bob,Architecture Department,"Urban regeneration, Digital twins",
-Charlie,DIMEC,"AI for medical solutions",
-Diana,DIN,"Ageing",
-Eric,DIMEVET,"Recombinant vaccines, Immunology",Horizon 2020
-"""
+#####################################
+# 1) READ THE CLEAN CSV
+#####################################
+df = pd.read_csv("data/processed/researchers.csv")  # path to the saved file
 
-############################################
-# 2) Dictionary Mapping Interests to (Thematic Area, Microtopic)
-############################################
-interest_map = {
-    "Urban policies": ("Urban Planning", "Urban policies"),
-    "Urban regeneration": ("Urban Planning", "Urban regeneration"),
-    "Digital twins": ("Data Science", "Digital twins"),
-    "AI for medical solutions": ("Data Science", "AI for medical solutions"),
-    "Recombinant vaccines": ("Biomed", "Recombinant vaccines"),
-    "Immunology": ("Biomed", "Immunology"),
-    "Ageing": ("Biomed", "Ageing"),
-    # Anything else will default to ("Other", "Other sub-topic")
-}
+#####################################
+# 2) SPLIT INTERESTS INTO A LIST
+#####################################
+df['Interests_List'] = df['Research Interests'].fillna('').apply(
+    lambda x: [item.strip() for item in x.split(',') if item.strip()]
+)
 
-############################################
-# 3) Load CSV into a DataFrame
-############################################
-df = pd.read_csv(pd.io.common.StringIO(csv_data))
+#####################################
+# 3) DEFINE (MACROAREA, MICROTOPIC) MAPPINGS IF YOU WANT
+#####################################
+interest_mapping = [
+    # (keyword to match lower, macroarea, microtopic)
+    ("ageing", "Ageing / Gerontology", "Ageing"),
+    ("alzheimer", "Ageing / Gerontology", "Alzheimer"),
+    ("longevity", "Ageing / Gerontology", "Longevity"),
+    ("stem cells", "Biomed / Cell Biology", "Stem Cells"),
+    ("cornea transplant", "Biomed / Surgery", "Cornea Transplant"),
+    ("leukemia", "Molecular / Genetics", "Leukemia"),
+    ("gene", "Molecular / Genetics", "Gene"),
+    ("data science for", "Data Science", "Data Science for"),
+    ("data science", "Data Science", "Data Science"),
+    ("deep learning", "Data Science / AI", "Deep Learning"),
+    ("machine learning", "Data Science / AI", "Machine Learning"),
+    ("digital health", "Data Science / eHealth", "Digital Health"),
+    ("ai for medical devices", "Data Science / AI", "AI for medical devices"),
+    ("urban policy", "Urban / Architecture", "Urban policy"),
+    ("urban planning", "Urban / Architecture", "Urban planning"),
+    ("migration", "Social / Migration", "Migration"),
+    ("emigration", "Social / Migration", "Emigration"),
+    ("immunology", "Biomed / Immunology", "Immunology"),
+    ("biomechanics", "Medical Engineering", "Biomechanics"),
+    ("biomedical database", "Medical Engineering", "Biomedical Database"),
+    ("3d print", "Engineering / 3D Tech", "3D Print"),
+    ("3d printing", "Engineering / 3D Tech", "3D Printing"),
+    ("virtual reality", "Engineering / 3D Tech", "Virtual Reality"),
+    ("augmented reality", "Engineering / 3D Tech", "Augmented Reality"),
+]
 
-# Split 'Interests' column into lists
-df['Interests'] = df['Interests'].apply(lambda x: [i.strip() for i in x.split(',')] if pd.notna(x) else [])
+def get_macroarea_and_microtopic(interest):
+    lower_interest = interest.lower()
+    for (keyword, macro, micro) in interest_mapping:
+        if keyword in lower_interest:
+            return (macro, micro)
+    # fallback
+    return ("Other", interest.strip())
 
-############################################
-# 4) We'll build a Sankey with the chain:
-#    Person -> Thematic Area -> Microtopic -> Department -> (Project optional)
-############################################
-
-# We'll keep these as module-level variables
+#####################################
+# 4) BUILD THE MULTI-PART SANKEY
+#    Person -> Macroarea -> Microtopic -> Department -> Project
+#####################################
 current_index = 0
 node_map = {}
 labels = []
 colors = []
 
 def get_node_index(label):
-    """
-    Return the node index for a given label.
-    If the label is None (e.g., no project), we return None.
-    Otherwise, create a new node if not already existing.
-    """
-    global current_index  # We'll modify current_index in this function
-    
-    if label is None or pd.isna(label):
+    global current_index
+    if not label or pd.isna(label):
         return None
     if label not in node_map:
         node_map[label] = current_index
         labels.append(label)
-        # All nodes default to gray (#A0A0A0) here.
-        # You can customize color logic if you want different colors for each part.
-        colors.append("#A0A0A0")  
+        colors.append("#A0A0A0")
         current_index += 1
     return node_map[label]
 
-
-# We'll store Sankey link data in these lists
 sources = []
 targets = []
 values = []
 
-############################################
-# 5) Create the links for each row in df
-############################################
 for _, row in df.iterrows():
     person = row['Name']
-    dept = row['Departments']
-    project = row['European Project'] if pd.notna(row['European Project']) else None
+    dept = row['Department']
+    project = row['Project']
     
-    # Indices for person & department & project (if present)
     person_idx = get_node_index(person)
-    dept_idx = get_node_index(dept)
-    project_idx = get_node_index(project)
+    dept_idx   = get_node_index(dept)
+    proj_idx   = get_node_index(project)
     
-    # For each interest, map to (thematic_area, microtopic)
-    for interest in row['Interests']:
-        interest = interest.strip()
-        if interest in interest_map:
-            thematic_area, microtopic = interest_map[interest]
-        else:
-            thematic_area, microtopic = ("Other", "Other sub-topic")
+    for interest in row['Interests_List']:
+        macro, micro = get_macroarea_and_microtopic(interest)
         
-        thematic_idx = get_node_index(thematic_area)
-        microtopic_idx = get_node_index(microtopic)
+        macro_idx = get_node_index(macro)
+        micro_idx = get_node_index(micro)
         
-        # Build the chain of links:
-        # Person -> Thematic Area
+        # Person -> Macroarea
         sources.append(person_idx)
-        targets.append(thematic_idx)
+        targets.append(macro_idx)
         values.append(1)
         
-        # Thematic Area -> Microtopic
-        sources.append(thematic_idx)
-        targets.append(microtopic_idx)
+        # Macroarea -> Microtopic
+        sources.append(macro_idx)
+        targets.append(micro_idx)
         values.append(1)
         
         # Microtopic -> Department
-        sources.append(microtopic_idx)
-        targets.append(dept_idx)
-        values.append(1)
+        if dept_idx is not None:
+            sources.append(micro_idx)
+            targets.append(dept_idx)
+            values.append(1)
         
-        # (Optional) Department -> Project if it exists
-        if project_idx is not None:
+        # Department -> Project (optional)
+        if proj_idx is not None:
             sources.append(dept_idx)
-            targets.append(project_idx)
+            targets.append(proj_idx)
             values.append(1)
 
-############################################
-# 6) Build and Plot the Sankey Diagram
-############################################
 fig = go.Figure(go.Sankey(
-    arrangement="snap",
     node=dict(
         pad=15,
         thickness=20,
@@ -134,8 +127,6 @@ fig = go.Figure(go.Sankey(
     )
 ))
 
-fig.update_layout(
-    title_text="Multi-Part Sankey: Person → Thematic Area → Microtopic → Dept (+ Project)",
-    font_size=10
-)
+fig.update_layout(title_text="Multi-Part Sankey: Person → Macroarea → Microtopic → Department → Project",
+                  font_size=10)
 fig.show()

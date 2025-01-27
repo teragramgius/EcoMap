@@ -98,6 +98,8 @@ The following are the key academic roles that contribute to research and teachin
 
 ### 8. **Didactic tutor**
 
+### 9. **Collaborator**
+
 ### * **Delegate**
    - Part of the Delegates in the university
 

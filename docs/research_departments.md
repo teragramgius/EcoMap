@@ -84,7 +84,7 @@ The following are the key academic roles that contribute to research and teachin
    - A fixed-term researcher role for those holding a Ph.D.
    - Typically focused on conducting specific research projects.
 
-### 5. **Temporary Researcher (Ricercatore a Tempo Determinato)**
+### 5. ** (Ricercatore a Tempo Determinato)**
    - **Type A** and **Type B** positions were phased out with recent reforms.
    - **Ricercatore a Tempo Determinato** roles now focus on tenure-track or contract-based research.
 
